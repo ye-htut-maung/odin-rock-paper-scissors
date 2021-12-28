@@ -1,3 +1,4 @@
 # odin-rock-paper-scissors
 
-Can't host page :(
+Console Rock Paper Scissors
+Version 1
