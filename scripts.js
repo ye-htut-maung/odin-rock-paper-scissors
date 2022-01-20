@@ -63,21 +63,53 @@ function playRound(playerSelection, computerSelection) {
 function game() {
   let winCount = 0;
   let loseCount = 0;
-  while (winCount < 5 && loseCount < 5) {
-    let player = prompt("Enter rock, paper or scissors");
-    if (!checkValidInput(player)) return "Enter vaild input";
-    let computer = computerPlay();
+  // while (winCount < 5 && loseCount < 5) {
+  //   let player = prompt("Enter rock, paper or scissors");
+  //   if (!checkValidInput(player)) return "Enter vaild input";
+  //   let computer = computerPlay();
 
-    let status = playRound(player, computer);
-    if (status === "win") {
-      winCount++;
-    } else if (status === "lose") {
-      loseCount++;
-    }
-    console.log(`You: ${winCount}, Computer: ${loseCount}`);
-  }
+  //   let status = playRound(player, computer);
+  //   if (status === "win") {
+  //     winCount++;
+  //   } else if (status === "lose") {
+  //     loseCount++;
+  //   }
+  //   console.log(`You: ${winCount}, Computer: ${loseCount}`);
+  // }
   if (winCount === 5) return "You win the game";
   else return "You lose the game";
 }
 
-console.log(game());
+const buttons = document.querySelectorAll(".btn");
+let computerPoint = 0;
+let playerPoint = 0;
+
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    let win_lose = document.querySelector(".win_lose");
+    win_lose.textContent = "";
+    let player = button.id;
+    let status = playRound(player, computerPlay());
+
+    if (status === "win") {
+      playerPoint++;
+    } else if (status === "lose") {
+      computerPoint++;
+    }
+
+    let result = document.querySelector("#result");
+
+    result.textContent = `Computer: ${computerPoint} Player: ${playerPoint}`;
+    if (playerPoint >= 5 || computerPoint >= 5) {
+      if (playerPoint >= 5) {
+        win_lose.textContent = "You win";
+      } else {
+        win_lose.textContent = "You lose";
+      }
+      computerPoint = 0;
+      playerPoint = 0;
+    }
+  });
+});
+
+// console.log(game());
