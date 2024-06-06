@@ -1,5 +1,8 @@
 // RPS = Rock Paper Scissors
-let RPS = ["Rock", "Paper", "Scissors"];
+const RPS = ["Rock", "Paper", "Scissors"];
+const computerResult = document.querySelector(".computerScores");
+const playerResult = document.querySelector(".playerScores");
+const caption = document.querySelector(".caption");
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -26,7 +29,6 @@ function checkValidInput(userInput) {
 
 function playRound(playerSelection, computerSelection) {
   playerSelection = capitalize(playerSelection);
-  // console.log(playerSelection);
 
   let status = "undecied";
 
@@ -44,40 +46,19 @@ function playRound(playerSelection, computerSelection) {
 
   switch (status) {
     case "win":
-      console.log(`You Win! ${playerSelection} beats ${computerSelection}`);
+      caption.textContent = `You Win! ${playerSelection} beats ${computerSelection}`;
       break;
     case "lose":
-      console.log(`You Lose! ${computerSelection} beats ${playerSelection}`);
+      caption.textContent = `You Lose! ${computerSelection} beats ${playerSelection}`;
       break;
     case "draw":
-      console.log(
-        `You Draw! ${playerSelection} can't beat ${computerSelection}`
-      );
+      caption.textContent = `You Draw! ${playerSelection} can't beat ${computerSelection}`;
+
       break;
     default:
       console.log("error");
   }
   return status;
-}
-
-function game() {
-  let winCount = 0;
-  let loseCount = 0;
-  // while (winCount < 5 && loseCount < 5) {
-  //   let player = prompt("Enter rock, paper or scissors");
-  //   if (!checkValidInput(player)) return "Enter vaild input";
-  //   let computer = computerPlay();
-
-  //   let status = playRound(player, computer);
-  //   if (status === "win") {
-  //     winCount++;
-  //   } else if (status === "lose") {
-  //     loseCount++;
-  //   }
-  //   console.log(`You: ${winCount}, Computer: ${loseCount}`);
-  // }
-  if (winCount === 5) return "You win the game";
-  else return "You lose the game";
 }
 
 const buttons = document.querySelectorAll(".btn");
@@ -86,8 +67,6 @@ let playerPoint = 0;
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
-    let win_lose = document.querySelector(".win_lose");
-    win_lose.textContent = "";
     let player = button.id;
     let status = playRound(player, computerPlay());
 
@@ -97,18 +76,21 @@ buttons.forEach((button) => {
       computerPoint++;
     }
 
-    let result = document.querySelector("#result");
-
-    result.textContent = `Computer: ${computerPoint} Player: ${playerPoint}`;
-    if (playerPoint >= 5 || computerPoint >= 5) {
-      if (playerPoint >= 5) {
-        win_lose.textContent = "You win";
-      } else {
-        win_lose.textContent = "You lose";
+    computerResult.textContent = `Computer: ${computerPoint}`;
+    playerResult.textContent = `Player: ${playerPoint}`;
+    setTimeout(() => {
+      if (playerPoint >= 5 || computerPoint >= 5) {
+        if (playerPoint >= 5) {
+          alert("You win");
+        } else {
+          alert("You lose");
+        }
+        computerPoint = 0;
+        playerPoint = 0;
+        computerResult.textContent = `Computer: ${computerPoint}`;
+        playerResult.textContent = `Player: ${playerPoint}`;
       }
-      computerPoint = 0;
-      playerPoint = 0;
-    }
+    }, 1000);
   });
 });
 
